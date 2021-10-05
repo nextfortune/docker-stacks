@@ -1,0 +1,38 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+
+jobs:
+  build:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    - name: Get file changes
+      id: get_file_changes
+      uses: dorner/file-changes-action@v1.2.0
+      with:
+        githubToken: ${{ secrets.GITHUB_TOKEN }}
+        plaintext: true
+
+    - name: Echo file changes
+      run: |
+        echo Changed files: ${{ steps.get_file_changes.outputs.files }}
