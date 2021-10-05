@@ -18,7 +18,14 @@ jobs:
       with:
         fetch-depth: 0
     - name: Get changed files
-      run: echo "::set-output name=CHANGED_FILES::$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }})"
+      run: |
+        changed_file_list = ()
+        for i in $(git diff --name-only ${{ github.event.before }}..${{ github.event.after }})
+        do
+          changed_file_list += i
+        done
+
+        echo "::set-output name=CHANGED_FILES::${arr[@]}"
       id: changed_files
 
     - run: echo "the changed files are ${{steps.changed_files.outputs.CHANGED_FILES}}"
