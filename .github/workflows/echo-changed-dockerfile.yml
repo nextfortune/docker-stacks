@@ -31,7 +31,8 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v2
       with:
-        context: ${{steps.changed_files.outputs.CHANGED_FILES}}
+        context: .
+        file: ${{steps.changed_files.outputs.CHANGED_FILES}}
         push: true
         tags: |
           ${{ secrets.DOCKERHUB_USERNAME }}/jupyterlab-base:ci-test
