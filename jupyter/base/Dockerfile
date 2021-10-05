@@ -22,8 +22,8 @@ USER root
 
 RUN sudo apt-get update && \
     sudo apt-get -y upgrade && \
-    sudo apt-get install -y curl && \
-    sudo apt-get install -y gnupg
+    sudo apt-get install -y curl
+RUN sudo apt-get install -y gnupg
 RUN sudo curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 RUN sudo curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
 RUN sudo apt-get -y update
