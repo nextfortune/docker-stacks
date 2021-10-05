@@ -3,7 +3,7 @@ name: Docker Image CI
 on:
   push:
 #     branches: [ main ]
-    tags: 'ci-test'
+    tags: ${GITHUB_REF#refs/*/}
     paths-ignore:
       - '.github/workflows/**'
   pull_request:
