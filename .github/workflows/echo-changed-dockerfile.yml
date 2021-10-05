@@ -20,7 +20,7 @@ jobs:
     - name: Get changed files
       run: |
         changed_file_list = ()
-        for i in $(git diff --name-only ${{ github.event.before }}..${{ github.event.after }})
+        for i in $(git diff --name-only ${{ github.event.before }}..${{ github.event.after }});
         do
           changed_file_list += i
         done
