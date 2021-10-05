@@ -20,8 +20,8 @@ RUN jupyter server extension list
 #install sql driver
 USER root
 
-RUN sudo apt-get -y update
-RUN sudo apt-get -y upgrade
+RUN sudo apt-get update && \
+    sudo apt-get -y upgrade
 RUN sudo apt-get install -y curl
 RUN sudo apt-get install -y gnupg
 RUN sudo curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
