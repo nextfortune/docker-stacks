@@ -19,8 +19,14 @@ jobs:
     - name: Get changed files
       run: echo "::set-output name=CHANGED_FILES::$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }})"
       id: changed_files
-      
+
     - run: echo "the changed files are ${{steps.changed_files.outputs.CHANGED_FILES}}"
+
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      
+    - run: echo "the current version is ${{steps.get_version.outputs.VERSION}}"
   
     - name: Login to DockerHub
       uses: docker/login-action@v1 
