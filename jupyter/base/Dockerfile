@@ -9,11 +9,11 @@ RUN pip install tableauserverclient
 RUN jupyter labextension install nbdime-jupyterlab --no-build
 RUN jupyter labextension install @jupyterlab/git --no-build
 RUN jupyter lab build && \
-        jupyter lab clean && \
-        jlpm cache clean && \
-        npm cache clean --force && \
-        rm -rf $HOME/.node-gyp && \
-        rm -rf $HOME/.local && \
+    jupyter lab clean && \
+    jlpm cache clean && \
+    npm cache clean --force && \
+    rm -rf $HOME/.node-gyp && \
+    rm -rf $HOME/.local && \
     fix-permissions $CONDA_DIR $HOME
 RUN jupyter server extension list
 
