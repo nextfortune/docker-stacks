@@ -6,8 +6,8 @@ FROM jupyter/scipy-notebook
 RUN pip install --upgrade jupyterlab-git
 RUN pip install tableauserverclient
 
-RUN jupyter labextension install nbdime-jupyterlab --no-build
-RUN jupyter labextension install @jupyterlab/git --no-build
+RUN jupyter labextension install nbdime-jupyterlab --no-build && \
+    jupyter labextension install @jupyterlab/git --no-build
 RUN jupyter lab build && \
     jupyter lab clean && \
     jlpm cache clean && \
