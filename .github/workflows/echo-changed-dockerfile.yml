@@ -51,7 +51,7 @@ jobs:
           # Set $directory to substring before /
           directory="$( echo $path | cut -d'/' -f1 -s )"
           parent="$(dirname $path)"
-          category="$( echo $parent | rev | cut -d'/' -f1 -s | rev')"
+          category="$( echo $parent | rev | cut -d'/' -f1 -s | rev)"
 
           echo "Current root is: $directory, parent is: $parent"
           if [ "$directory" == .github ]; then
