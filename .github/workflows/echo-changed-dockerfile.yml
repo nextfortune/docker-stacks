@@ -49,7 +49,7 @@ jobs:
           # Set $directory to substring before /
           directory="$( echo $path | cut -d'/' -f1 -s )"
 
-          if [ -z "$directory" ]; then
+          if [ -z "$directory" == .* ]; then
             continue # Exclude root directory
           elif [ "$directory" == docs ]; then
             continue # Exclude docs directory
