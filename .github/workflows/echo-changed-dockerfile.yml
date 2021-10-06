@@ -50,8 +50,9 @@ jobs:
         while read path; do
           # Set $directory to substring before /
           directory="$( echo $path | cut -d'/' -f1 -s )"
+          parent="$(dirname $path)"
 
-          echo "Current directory is: $directory, file path: $path"
+          echo "Current root is: $directory, parent is: $parent"
           if [ "$directory" == .github ]; then
             continue # Exclude .github directory
           elif [ "$path" == *.rst ]; then
