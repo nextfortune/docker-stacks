@@ -49,9 +49,9 @@ jobs:
           # Set $directory to substring before /
           directory="$( echo $path | cut -d'/' -f1 -s )"
 
-          if [ -z "$directory" == .github ]; then
-            continue # Exclude root directory
-          elif [ "$directory" == docs ]; then
+          # if [ -z "$directory" == .github ]; then
+          #   continue # Exclude root directory
+          if [ "$directory" == docs ]; then
             continue # Exclude docs directory
           elif [ "$path" == *.rst ]; then
             continue # Exclude *.rst files
