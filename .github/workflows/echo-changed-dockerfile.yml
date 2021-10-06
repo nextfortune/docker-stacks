@@ -86,7 +86,7 @@ jobs:
         echo "::set-output name=matrix::$( echo "$JSON" )"
         echo "Result Json: $JSON"
 
-    - run: echo ${{fromJson(steps.generate-matrix.outputs.matrix)}}
+    - run: echo ${{fromJson(steps.generate-matrix.set-matrix.outputs.matrix)}}
 
   build:
     name: Build Docker Image
