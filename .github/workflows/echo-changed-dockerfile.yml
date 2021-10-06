@@ -86,6 +86,8 @@ jobs:
         echo "::set-output name=matrix::$( echo "$JSON" )"
         echo "Result Json: $JSON"
 
+    - run: echo ${{fromJson(generate-matrix.outputs.matrix)}}
+
   build:
     name: Build Docker Image
     needs: generate-matrix
