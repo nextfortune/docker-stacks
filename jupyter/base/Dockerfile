@@ -3,8 +3,8 @@ FROM jupyter/scipy-notebook
 #ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 # Install git extension
-RUN pip install --upgrade jupyterlab-git
-RUN pip install tableauserverclient
+RUN pip install --upgrade jupyterlab-git && \
+    pip install tableauserverclient
 
 RUN jupyter labextension install nbdime-jupyterlab --no-build && \
     jupyter labextension install @jupyterlab/git --no-build
