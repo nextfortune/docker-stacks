@@ -6,7 +6,10 @@ on:
     paths-ignore:
       - '.github/workflows/**'
   pull_request:
-    branches: [ main ]
+    tags: [ '*.*.*' ]
+    branches: [ main, stable ]
+    paths-ignore:
+      - '.github/workflows/**'
 
 jobs:
   generate-matrix:
