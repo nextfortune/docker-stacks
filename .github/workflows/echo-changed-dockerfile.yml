@@ -53,7 +53,6 @@ jobs:
           # if [ -z "$directory" == .github ]; then
           #   continue # Exclude root directory
           if [ "$directory" == .github ]; then
-            echo "Exclude $directory"
             continue # Exclude docs directory
           if [ "$path" == *.rst ]; then
             continue # Exclude *.rst files
