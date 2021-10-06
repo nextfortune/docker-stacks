@@ -54,7 +54,7 @@ jobs:
           #   continue # Exclude root directory
           if [ "$directory" == .github ]; then
             continue # Exclude docs directory
-          if [ "$path" == *.rst ]; then
+          elif [ "$path" == *.rst ]; then
             continue # Exclude *.rst files
           elif [ "$path" == *.md ]; then
             continue # Exclude *.md files
