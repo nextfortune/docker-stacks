@@ -2,7 +2,6 @@ name: Docker Image CI
 
 on:
   push:
-#     branches: [ main ]
     tags: [ 'ci-*' ]
     paths-ignore:
       - '.github/workflows/**'
@@ -14,7 +13,7 @@ jobs:
     name: Generate matrix for build
     runs-on: ubuntu-latest
     outputs: 
-      matrix: ${{steps.set-matrix.outputs.matrix}}
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
     - uses: actions/checkout@v2
       with:
@@ -97,8 +96,9 @@ jobs:
   build:
     name: Prepare Docker Image
     needs: generate-matrix
+    if: ${{ needs.generate-matrix.outputs.matrix != '[]' && needs.generate-matrix.outputs.matrix != '' }}
     strategy:
-      matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
+      matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
