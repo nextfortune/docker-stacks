@@ -87,29 +87,18 @@ jobs:
         echo "Result Json: $JSON"
 
   build:
-    name: Build "${{ matrix.directory }}" on ${{ matrix.os }}
+    name: Build Docker Image
     needs: generate-matrix
     strategy:
       matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build
         run: |
           cd ${{ matrix.directory }}
           echo "${{ matrix.directory }} ${{ matrix.os }}"
-    # - name: Get changed files
-    #   run: |
-    #     changed_file_list=()
-    #     for i in $(git diff --name-only ${{ github.event.before }}..${{ github.event.after }});
-    #     do
-    #       changed_file_list += i
-    #     done
 
-    #     echo "::set-output name=CHANGED_FILES::${arr[@]}"
-    #   id: changed_files
-
-    # - run: echo "the changed files are ${{steps.changed_files.outputs.CHANGED_FILES}}"
 
     # - name: Set output
     #   id: vars
