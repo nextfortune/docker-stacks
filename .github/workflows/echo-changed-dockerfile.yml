@@ -96,7 +96,7 @@ jobs:
   build:
     name: Prepare Docker Image
     needs: generate-matrix
-    if: ${{ needs.generate-matrix.outputs.matrix.include != '[]' }}
+    if: ${{ fromJSON( needs.generate-matrix.outputs.matrix ).include[0] }}
     strategy:
       matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
     runs-on: ubuntu-latest
