@@ -30,8 +30,8 @@ RUN sudo -E apt-get -y update
 RUN sudo -E ACCEPT_EULA=Y apt-get install -y msodbcsql17
 
 # Install packages
-RUN conda install -y -c conda-forge pyodbc
-RUN conda install -y -c conda-forge pycrypto
+RUN conda install -y -c conda-forge pyodbc && \
+    conda install -y -c conda-forge pycrypto
 RUN conda install -y -c anaconda pymssql
 RUN conda install -y -c conda-forge pyarrow=3.0.0
 RUN conda install -y -c conda-forge turbodbc
