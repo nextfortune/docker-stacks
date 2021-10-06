@@ -95,7 +95,7 @@ jobs:
         echo "Result Json: $JSON"
 
   build:
-    name: Build Docker Image
+    name: Prepare Docker Image
     needs: generate-matrix
     strategy:
       matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
