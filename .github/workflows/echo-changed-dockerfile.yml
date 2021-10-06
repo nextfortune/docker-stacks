@@ -47,7 +47,8 @@ jobs:
         # Loop by lines
         while read path; do
           # Set $directory to substring before /
-          directory="$( echo $path | cut -d'/' -f1 -s )"\
+          directory="$( echo $path | cut -d'/' -f1 -s )"
+
           echo "Current directory is: $directory, file path: $path"
           if [ "$directory" == .github ]; then
             continue # Exclude .github directory
@@ -91,11 +92,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
-      - name: Build the Docker image
+      - name: Build
         run: |
           cd ${{ matrix.directory }}
           echo "${{ matrix.directory }} ${{ matrix.os }}"
-  
     # - name: Get changed files
     #   run: |
     #     changed_file_list=()
