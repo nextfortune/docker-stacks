@@ -51,6 +51,7 @@ jobs:
           # Set $directory to substring before /
           directory="$( echo $path | cut -d'/' -f1 -s )"
           parent="$(dirname $path)"
+          category="$( echo $parent | rev | cut -d'/' -f1 -s | rev')"
 
           echo "Current root is: $directory, parent is: $parent"
           if [ "$directory" == .github ]; then
@@ -63,6 +64,12 @@ jobs:
             continue # Exclude *.yml files
           fi
 
+          if [ "$directory" == jupyter ]; then
+            image="jupyterlab-$category:'${GITHUB_REF/refs\/tags\//}'"
+          elif [ "$directory" == airflow ]; then
+            image="airflow:'${GITHUB_REF/refs\/tags\//}'"
+          fi
+
           # Set $os. "ubuntu-latest" by default. if directory starts with windows, then "windows-latest"
           os="ubuntu-latest"
           if [ "$directory" == windows* ]; then
@@ -70,7 +77,7 @@ jobs:
           fi
 
           # Add build to the matrix only if it is not already included
-          JSONline="{\"directory\":\"$parent\",\"os\":\"$os\"},"
+          JSONline="{\"directory\":\"$parent\",\"os\":\"$os\",\"image\":\"$image\"},"
           if [[ "$JSON" != *"$JSONline"* ]]; then
             JSON="$JSON$JSONline"
           fi
@@ -87,8 +94,6 @@ jobs:
         echo "::set-output name=matrix::$( echo "$JSON" )"
         echo "Result Json: $JSON"
 
-    - run: echo steps.set-matrix.outputs.matrix
-
   build:
     name: Build Docker Image
     needs: generate-matrix
@@ -97,15 +102,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build
+      - name: Check matrix outputs
         run: |
           cd ${{ matrix.directory }}
-          echo "${{ matrix.directory }} ${{ matrix.os }}"
+          echo "${{ matrix.directory }} ${{ matrix.image }}"
+
+      # - name: Build and push
+      #   id: gen_tags
+      #   run: |
+      #     if [[ $GITHUB_REF == 'refs/tags/'* ]]; then
+      #       TAGS='["user/image:latest","user/image:'${GITHUB_REF/refs\/tags\//}'"]'
+      #     else
+      #       TAGS='["user/image:latest"]'
+      #     fi
+      #     echo '::set-output name=tags::'$TAGS
 
 
     # - name: Set output
     #   id: vars
-    #   run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+    #   run: echo ::set-output name=tag::${GITHUB_REF#refs/tag/}
     # - name: Check output
     #   env:
     #     RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
