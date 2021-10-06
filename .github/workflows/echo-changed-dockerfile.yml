@@ -70,7 +70,7 @@ jobs:
           fi
 
           # Add build to the matrix only if it is not already included
-          JSONline="{\"directory\":\"$directory\",\"os\":\"$os\"},"
+          JSONline="{\"directory\":\"$parent\",\"os\":\"$os\"},"
           if [[ "$JSON" != *"$JSONline"* ]]; then
             JSON="$JSON$JSONline"
           fi
