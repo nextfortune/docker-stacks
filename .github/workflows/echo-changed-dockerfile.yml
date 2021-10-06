@@ -48,7 +48,8 @@ jobs:
         while read path; do
           # Set $directory to substring before /
           directory="$( echo $path | cut -d'/' -f1 -s )"
-
+          echo "Current path is: $path"
+          echo "Current directory is: $directory"
           # if [ -z "$directory" == .github ]; then
           #   continue # Exclude root directory
           if [ "$directory" == docs ]; then
