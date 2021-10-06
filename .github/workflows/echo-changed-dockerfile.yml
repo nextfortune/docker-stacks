@@ -10,8 +10,8 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-    name: Build the Docker image
+  generate-matrix:
+    name: Generate matrix for build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -47,11 +47,10 @@ jobs:
         # Loop by lines
         while read path; do
           # Set $directory to substring before /
-          directory="$( echo $path | cut -d'/' -f1 -s )"
-          echo "Current path is: $path"
-          echo "Current directory is: $directory"
+          directory="$( echo $path | cut -d'/' -f1 -s )"\
+          echo "Current directory is: $directory, file path: $path"
           if [ "$directory" == .github ]; then
-            continue # Exclude root directory
+            continue # Exclude .github directory
           elif [ "$path" == *.rst ]; then
             continue # Exclude *.rst files
           elif [ "$path" == *.md ]; then
@@ -84,7 +83,19 @@ jobs:
         echo "::set-output name=matrix::$( echo "$JSON" )"
         echo "Result Json: $JSON"
 
-
+  build:
+    name: Build "${{ matrix.directory }}" on ${{ matrix.os }}
+    needs: generate-matrix
+    strategy:
+      matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: |
+          cd ${{ matrix.directory }}
+          echo "${{ matrix.directory }} ${{ matrix.os }}"
+  
     # - name: Get changed files
     #   run: |
     #     changed_file_list=()
