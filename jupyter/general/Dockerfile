@@ -30,4 +30,5 @@ RUN pip install bentoml==0.13.1
 
 # Install pylint
 RUN pip install pylint==2.11.1
+
 USER $NB_UID
