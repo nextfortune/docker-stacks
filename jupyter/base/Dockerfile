@@ -21,8 +21,8 @@ RUN jupyter server extension list
 USER root
 
 RUN sudo -E apt-get -y update && \
-    sudo -E apt-get -y upgrade
-RUN sudo -E apt-get install -y curl
+    sudo -E apt-get -y upgrade && \
+    sudo -E apt-get install -y curl
 RUN sudo -E apt-get install -y gnupg
 RUN sudo -E curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 RUN sudo -E curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
