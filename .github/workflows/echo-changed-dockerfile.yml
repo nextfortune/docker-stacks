@@ -65,7 +65,7 @@ jobs:
           fi
 
           if [ "$directory" == jupyter ]; then
-            image="jupyterlab-$category:'${GITHUB_REF/refs\/tags\//}'"
+            image="jupyterlab-$category:${GITHUB_REF/refs\/tags\//}"
           elif [ "$directory" == airflow ]; then
             image="airflow:'${GITHUB_REF/refs\/tags\//}'"
           fi
