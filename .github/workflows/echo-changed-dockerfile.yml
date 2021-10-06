@@ -84,7 +84,7 @@ jobs:
 
         # Set output
         echo "::set-output name=matrix::$( echo "$JSON" )"
-        echo "Result Json: $JSON"
+        echo "Result Json: $($JSON | sed 's/ //g')"
 
   build:
     name: Build Docker Image
