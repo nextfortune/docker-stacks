@@ -97,7 +97,7 @@ jobs:
         echo "Result Json: $JSON"
 
   build:
-    name: Prepare Docker Image
+    name: Build Docker Image
     needs: generate-matrix
     if: ${{ fromJSON( needs.generate-matrix.outputs.matrix ).include[0] }}
     strategy:
@@ -119,8 +119,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: .
-          file: ${{ matrix.directory }}/Dockerfile
+          context: ${{ matrix.directory }}
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.image }}
