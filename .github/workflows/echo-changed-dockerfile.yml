@@ -50,9 +50,7 @@ jobs:
           directory="$( echo $path | cut -d'/' -f1 -s )"
           echo "Current path is: $path"
           echo "Current directory is: $directory"
-          if [ "$directory" != jupyter ]; then
-            continue # Exclude root directory
-          elif [ "$directory" != airflow ]; then
+          if [ "$directory" == .github ]; then
             continue # Exclude root directory
           elif [ "$path" == *.rst ]; then
             continue # Exclude *.rst files
