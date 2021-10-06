@@ -49,12 +49,14 @@ jobs:
           # Set $directory to substring before /
           directory="$( echo $path | cut -d'/' -f1 -s )"
 
-          if [ -z "$directory" == .* ]; then
+          if [ -z "$directory" == .github ]; then
             continue # Exclude root directory
           elif [ "$directory" == docs ]; then
             continue # Exclude docs directory
           elif [ "$path" == *.rst ]; then
             continue # Exclude *.rst files
+          elif [ "$path" == *.md ]; then
+            continue # Exclude *.md files
           fi
 
           # Set $os. "ubuntu-latest" by default. if directory starts with windows, then "windows-latest"
