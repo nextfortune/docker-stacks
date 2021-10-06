@@ -57,6 +57,8 @@ jobs:
             continue # Exclude *.rst files
           elif [ "$path" == *.md ]; then
             continue # Exclude *.md files
+          elif [ "$path" == *.yml ]; then
+            continue # Exclude *.yml files
           fi
 
           # Set $os. "ubuntu-latest" by default. if directory starts with windows, then "windows-latest"
