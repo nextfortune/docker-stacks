@@ -1,10 +1,10 @@
-ARG BASE_CONTAINER=timsu27/jupyter-datascience:1.0.4-python3.8
-FROM $BASE_CONTAINER
+FROM timsu27/jupyterlab-datascience:3.1.6-python3.8
 
 # Fix DL4006
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 USER $NB_UID
+
 # Install ML packages
 RUN pip install --upgrade xgboost && \
     pip install --upgrade lightgbm && \
