@@ -1,5 +1,4 @@
-ARG BASE_CONTAINER=timsu27/jupyter-general:1.0.4-python3.8
-FROM $BASE_CONTAINER
+FROM timsu27/jupyter-general:3.1.6-python3.8
 
 # Fix DL4006
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
