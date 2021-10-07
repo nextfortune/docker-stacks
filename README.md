@@ -6,16 +6,26 @@ Docker-Stacks
   - [Images Dependency](#Inages-Dependency)
   - [Images Details](#Images-Details)
 
-[TOC]
-
 ## Images Dependency
-```mermaid!
+```plantuml
+@startdot
+digraph G{
+ Jupyterlab_base ->Jupyter_general
+ Jupyter_general ->Jupyterlab_datascience
+ Jupyter_general ->Jupyterlab_tensorflow
+ Jupyter_general ->Jupyterlab_pyspark
+ Jupyterlab_datascience->Jupyterlab_decisiontree
+}
+@enddot
+```
+
+```mermaid
 graph TD
- Jupyterlab_base -->Jupyter_general;
- Jupyter_general -->Jupyterlab_datascience;
- Jupyter_general -->Jupyterlab_tensorflow;
- Jupyter_general -->Jupyterlab_pyspark;
- Jupyterlab_datascience-->Jupyterlab_decisiontree;
+ Jupyterlab_base -->Jupyter_general
+ Jupyter_general -->Jupyterlab_datascience
+ Jupyter_general -->Jupyterlab_tensorflow
+ Jupyter_general -->Jupyterlab_pyspark
+ Jupyterlab_datascience-->Jupyterlab_decisiontree
 ```
 
 Images Details
