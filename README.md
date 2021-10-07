@@ -1,15 +1,15 @@
----
-title: 'Docker-stacks'
-disqus: hackmd
----
-
 Docker-Stacks
 ===
 ## Table of Contents
+- [Docker-Stacks](#Docker-Stacks)
+  - [Table of Contents](#Table-of-Contents)
+  - [Images Dependency](#Inages-Dependency)
+  - [Images Details](#Images-Details)
+
 [TOC]
 
-## Images dependency
-```mermaid
+## Images Dependency
+```mermaid!
 graph TD
  Jupyterlab_base -->Jupyter_general;
  Jupyter_general -->Jupyterlab_datascience;
@@ -18,9 +18,8 @@ graph TD
  Jupyterlab_datascience-->Jupyterlab_decisiontree;
 ```
 
-Images details
+Images Details
 ---
-<font face = 微軟雅黑>
 
 |  Image name             | Install Packages                                                             |
 |  ----                   | ----                                                                         |
@@ -30,5 +29,3 @@ Images details
 | Jupyterlab_decisiontree |  Xgboost, Lightgbm, <br> Tpot, Mlxtend                                       |
 | Jupyterlab_tensorflow   | Tensorflow, <br> Datatransformer, <br> Modelbricks                           |
 | Jupyterlab_pysprak      |  Spark                                                                       |
-
-</font>
