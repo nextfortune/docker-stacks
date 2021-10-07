@@ -48,9 +48,9 @@ RUN cp -p "$SPARK_HOME/conf/spark-defaults.conf.template" "$SPARK_HOME/conf/spar
     echo 'spark.driver.extraJavaOptions -Dio.netty.tryReflectionSetAccessible=true' >> $SPARK_HOME/conf/spark-defaults.conf && \
     echo 'spark.executor.extraJavaOptions -Dio.netty.tryReflectionSetAccessible=true' >> $SPARK_HOME/conf/spark-defaults.conf
 
-USER $NB_UID
-
 # Install findspark
 RUN pip install findspark
+
+USER $NB_UID
 
 WORKDIR $HOME
