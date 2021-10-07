@@ -7,14 +7,22 @@ Docker-Stacks
   - [Images Details](#Images-Details)
 
 ## Images Dependency
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.0.0/mermaid.min.js"></script>
+    </head>
+	 
 <body>
- <pre><code class="language-mermaid">graph TD
- Jupyterlab_base -->Jupyter_general
- Jupyter_general -->Jupyterlab_datascience
- Jupyter_general -->Jupyterlab_tensorflow
- Jupyter_general -->Jupyterlab_pyspark
- Jupyterlab_datascience-->Jupyterlab_decisiontree
+ <pre><code class="language-mermaid">graph LR
+A--&gt;B
 </code></pre>
+
+<div class="mermaid">graph LR
+A--&gt;B
+</div>
+	
 </body>
 <script>
 var config = {
@@ -28,6 +36,8 @@ var config = {
 mermaid.initialize(config);
 window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
 </script>
+
+</html>
 
 Images Details
 ---
