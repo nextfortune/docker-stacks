@@ -1,4 +1,4 @@
-FROM timsu27/jupyterlab-general:3.1.6-python3.8
+FROM nextbiteam/jupyterlab-general:3.1.6-python3.8
 
 # Fix DL4006
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]

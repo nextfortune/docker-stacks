@@ -1,4 +1,4 @@
-FROM timsu27/jupyterlab-base:3.1.6-python3.8
+FROM nextbiteam/jupyterlab-base:3.1.6-python3.8
 
 # Install Airflow
 ## Airflow install ENV
