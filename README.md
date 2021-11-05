@@ -3,7 +3,7 @@ Docker-Stacks
 ## Table of Contents
 - [Docker-Stacks](#Docker-Stacks)
   - [Table of Contents](#Table-of-Contents)
-  - [Images Dependency](#Inages-Dependency)
+  - [Images Dependency](#Images-Dependency)
   - [Images Details](#Images-Details)
 
 ## Images Dependency
