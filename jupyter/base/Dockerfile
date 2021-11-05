@@ -39,3 +39,5 @@ RUN conda install -y -c conda-forge pyarrow=3.0.0
 RUN conda install -y -c conda-forge turbodbc
 
 USER $NB_UID
+
+#USER root
