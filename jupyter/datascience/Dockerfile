@@ -83,3 +83,4 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
 WORKDIR $HOME
 
 USER $NB_UID
+

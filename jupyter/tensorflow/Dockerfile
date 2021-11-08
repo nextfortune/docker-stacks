@@ -11,3 +11,4 @@ USER $NB_UID
 # Install Nextfortune ML packages
 RUN pip install datatransformer && \
     pip install modelbricks
+
