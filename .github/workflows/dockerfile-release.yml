@@ -122,4 +122,4 @@ jobs:
           context: ${{ matrix.directory }}
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.image }}
+            ${{ secrets.DOCKERHUB_ORGNAME }}/${{ matrix.image }}
