@@ -40,6 +40,6 @@ RUN conda install -y -c conda-forge turbodbc
 
 USER $NB_UID
 
-USER root
+# USER root
 
-USER $NB_UID
+# USER $NB_UID
