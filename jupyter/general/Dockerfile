@@ -28,7 +28,6 @@ RUN sudo -E apt-get  update && \
 
 # Install bentoml
 RUN pip install bentoml==0.13.1
-
 # Install pylint
 RUN pip install pylint==2.11.1
 
