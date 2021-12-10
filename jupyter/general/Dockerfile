@@ -23,7 +23,8 @@ RUN sudo -E apt-get  update && \
     sudo -E apt-get install -y gcc python3-dev python3-pip libxml2-dev libxslt1-dev && \
     sudo -E apt-get install -y  zlib1g-dev g++ libmysqlclient-dev && \
     sudo -E apt-get install -y unixodbc-dev && \
-    pip install  -r ./requirements.txt
+    sudo -E apt-get install -y libsasl2-modules && \
+    pip install -r ./requirements.txt
 
 # Install bentoml
 RUN pip install bentoml==0.13.1
