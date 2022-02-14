@@ -2,6 +2,7 @@ FROM jupyter/scipy-notebook:python-3.8.8
 
 # Install tableau server client
 RUN pip install tableauserverclient==0.16.0
+RUN pip install jupyterhub==1.5.0
 
 # Install git extension
 RUN pip install --upgrade jupyterlab-git && \
