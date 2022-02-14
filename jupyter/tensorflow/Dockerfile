@@ -1,4 +1,4 @@
-FROM nextbiteam/jupyterlab-general:3.1.6-python3.8
+FROM nextbiteam/jupyterlab-general:3.1.8-python3.8
 
 # Install Tensorflow
 USER root
