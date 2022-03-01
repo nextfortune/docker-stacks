@@ -7,7 +7,7 @@ Docker-Stacks
   - [Images Details](#Images-Details)
 
 ## Images Dependency
-![images](https://github.com/nextfortune/docker-stacks/blob/main/images/Images%20Dependency.PNG)
+![images](https://github.com/nextfortune/docker-stacks/blob/main/images/Images%20Dependency.png)
 
 Images Details
 ---
