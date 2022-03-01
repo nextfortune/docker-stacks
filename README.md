@@ -12,17 +12,6 @@ Docker-Stacks
 Images Details
 ---
 
-<!-- <style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg .tg-lboi{border-color:inherit;text-align:left;vertical-align:middle}
-.tg .tg-9wq8{border-color:inherit;text-align:center;vertical-align:middle}
-.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
-.tg .tg-dvpl{border-color:inherit;text-align:right;vertical-align:top}
-</style> -->
 <table class="tg">
 <thead>
   <tr>
@@ -106,7 +95,7 @@ Images Details
     <td class="tg-dvpl">4.0.3</td>
   </tr>
   <tr>
-    <td class="tg-lboi" rowspan="4">Jupyterlab_decisiontree</td>
+    <td class="tg-9wq8" rowspan="4">Jupyterlab_decisiontree</td>
     <td class="tg-0pky">Xgboost</td>
     <td class="tg-dvpl">1.5.2</td>
   </tr>
@@ -121,6 +110,11 @@ Images Details
   <tr>
     <td class="tg-0pky">Mlxtend</td>
     <td class="tg-dvpl">0.18.0</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">Jupyterlab_dotnet</td>
+    <td class="tg-0lax">.Net</td>
+    <td class="tg-0lax">3.1.416</td>
   </tr>
 </tbody>
 </table>
