@@ -1,17 +1,15 @@
-FROM jupyter/scipy-notebook:python-3.8.8
-
-#Fix typing-extensions version and Install pylint
-RUN pip install typing-extensions==3.10.0.2 && \
-    pip install pylint
-
+FROM jupyter/base-notebook:ubuntu-18.04 as build
+# Fix typing-extensions version and Install pylint
 # Install tableau server client
-RUN pip install tableauserverclient==0.16.0
+RUN pip install typing-extensions==4.2.0 && \
+    pip install pylint && \
+    pip install tableauserverclient==0.16.0 && \
+    pip install jupyter-server==1.6.4 && \
+    pip install jupyterlab-git==0.22.1
 
+USER root
 # Install git extension
-RUN pip install --upgrade jupyterlab-git && \
-    pip install --upgrade jupyterlab_nvdashboard && \
-    jupyter labextension install nbdime-jupyterlab --no-build && \
-    jupyter labextension install @jupyterlab/git --no-build
+RUN jupyter labextension install nbdime-jupyterlab --no-build
 RUN jupyter lab build && \
     jupyter lab clean && \
     jlpm cache clean && \
@@ -19,65 +17,46 @@ RUN jupyter lab build && \
     rm -rf $HOME/.node-gyp && \
     rm -rf $HOME/.local && \
     fix-permissions $CONDA_DIR $HOME
-RUN jupyter server extension list
 
-USER root
-
-ENV NVARCH x86_64
-ENV NVIDIA_REQUIRE_CUDA "cuda>=11.6 brand=tesla,driver>=418,driver<419 brand=tesla,driver>=440,driver<441 brand=tesla,driver>=450,driver<451  brand=tesla,driver>=460,driver<461 brand=tesla,driver>=470,driver<471"
-
-LABEL maintainer "NVIDIA CORPORATION <cudatools@nvidia.com>"
-
-RUN echo ${NVARCH}
+# Install Nvidia driver and cudnn 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends gnupg2 curl ca-certificates
-RUN sudo -E curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub | apt-key add -
-RUN echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /"
-RUN echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /" > /etc/apt/sources.list.d/cuda.list
-RUN apt-get purge --autoremove -y curl \
-    && rm -rf /var/lib/apt/lists/*
+    apt-get install -y software-properties-common && \
+    apt update
 
-ENV CUDA_VERSION 11.6.0
+RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin
+RUN mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
+RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub && \
+    add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/ /"
 
-# For libraries in the cuda-compat-* package: https://docs.nvidia.com/cuda/eula/index.html#attachment-a
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    cuda-cudart-11-6=11.6.55-1 \
-    cuda-compat-11-6 \
-    && ln -s cuda-11.6 /usr/local/cuda && \
-    rm -rf /var/lib/apt/lists/*
+RUN wget http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
+RUN apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/7fa2af80.pub && \
+    apt install ./nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
 
-# Required for nvidia-docker v1
-RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf \
-    && echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
+RUN wget https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/libnvinfer7_7.1.3-1+cuda11.0_amd64.deb
+RUN apt install ./libnvinfer7_7.1.3-1+cuda11.0_amd64.deb -y && \
+    apt-get update
 
-ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
-ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
+# Install development and runtime libraries (~4GB)
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends --allow-downgrades \
+    cuda-11-0  \
+    libcudnn8=8.0.4.30-1+cuda11.0  \
+    libcudnn8-dev=8.0.4.30-1+cuda11.0
 
-# nvidia-container-runtime
-ENV NVIDIA_VISIBLE_DEVICES all
-ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
+# Reboot. Check that GPUs are visible using the command: nvidia-smi
 
-#fix no libcudnn
-RUN sudo -E apt-get update
-RUN sudo -E apt-get install -y software-properties-common
-RUN sudo -E apt update
-
-RUN sudo -E wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin && \
-    sudo mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600 && \
-    sudo -E apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub && \
-    sudo -E add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /"
-
-RUN sudo -E apt-get update
-RUN sudo -E apt-get install libcudnn8 && \
-    sudo -E apt-get install libcudnn8-dev
-
-RUN sudo -E apt-get install -y nvidia-cuda-toolkit
+# Install TensorRT. Requires that libcudnn8 is installed above.
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends --allow-downgrades \
+    libnvinfer7=7.1.3-1+cuda11.0 \
+    libnvinfer-dev=7.1.3-1+cuda11.0 \
+    libnvinfer-plugin7=7.1.3-1+cuda11.0
 
 RUN cd /usr/lib/x86_64-linux-gnu/ && \
-    sudo ln -s libcublas.so.10.2.1.243 libcublas.so.11 && \
-    sudo ln -s libcublasLt.so.10.2.1.243 libcublasLt.so.11 && \
-    sudo ln -s libcusolver.so.10.2.0.243 libcusolver.so.11 && \
-    sudo ln -s libcusparse.so.10.3.0.243 libcusparse.so.11
+    ln -s libcublas.so.10.2.1.243 libcublas.so.11 && \
+    ln -s libcublasLt.so.10.2.1.243 libcublasLt.so.11 && \
+    ln -s libcusparse.so.10.3.0.243 libcusparse.so.11 && \
+    ln -s /usr/local/cuda-11.0/targets/x86_64-linux/lib/libcusolver.so.10 libcusolver.so.11 && \
+    ln -s /usr/local/cuda-11.0/targets/x86_64-linux/lib/libcudart.so.11.0 libcudart.so.11.0 && \
+    rm -rf /var/lib/apt/lists/*
 
 #Install odbc mssql driver
 RUN sudo -E apt-get -y update && \
@@ -85,19 +64,28 @@ RUN sudo -E apt-get -y update && \
     sudo -E apt-get install -y curl && \
     sudo -E apt-get install -y gnupg && \
     sudo -E apt-get install -y vim
-RUN sudo -E curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-RUN sudo -E curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+RUN sudo -E curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+    sudo -E curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
 RUN sudo -E apt-get -y update && \
     sudo -E ACCEPT_EULA=Y apt-get install -y msodbcsql17
 
-# Install packages
+# Install pyodbc and turodbc
 RUN conda install -y -c conda-forge pyodbc && \
-    conda install -y -c conda-forge pycrypto && \
-    conda install -y -c anaconda pymssql
+    conda install -y -c conda-forge turbodbc
 
-# Install support package for turbodbc
-RUN conda install -y -c conda-forge pyarrow=3.0.0
-RUN conda install -y -c conda-forge turbodbc
+# USER $NB_UID
+USER root
+RUN pip install pycrypto && \
+    pip install pymssql && \
+    pip install numpy==1.20.3 -U && \
+    pip install pandas==1.3.3 -U && \
+    pip install pyarrow==4.0.1 -U
+WORKDIR $HOME
+USER $NB_UID
 
-
-USER ${NB_UID}
+FROM jupyter/scipy-notebook:ubuntu-18.04 as main
+COPY --from=build /. /.
+User root
+RUN jupyter lab build
+USER $NB_UID
+WORKDIR $HOME
